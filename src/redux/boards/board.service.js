@@ -18,7 +18,7 @@ const getBoard = async (boardId, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + boardId, config);
+  const response = await axios.get(API_URL + "board/" + boardId, config);
   return response.data; // Return the entire response data
 };
 

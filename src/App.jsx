@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Pin from "./pages/Pin";
 import Profile from "./pages/Profile";
+import Board from "./pages/Board";
 
 const App = () => {
   const { user } = useSelector((state) => state.auth); // Access user from Redux store
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/pin/:pinId" element={<Pin />} />
           <Route path="/profile/:userName" element={<Profile />} />
+          <Route path="/board/:boardId" element={<Board />} />
         </Routes>
       </div>
       <ToastContainer />

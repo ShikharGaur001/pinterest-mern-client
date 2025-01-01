@@ -34,7 +34,7 @@ export const getBoard = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
       const response = await boardService.getBoard(boardId, token);
-      return response.board; // Return the board object directly
+      return response; // Return the entire response data
     } catch (error) {
       const message =
         (error.response &&

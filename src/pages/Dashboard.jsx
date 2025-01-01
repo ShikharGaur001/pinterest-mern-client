@@ -98,7 +98,7 @@ const Dashboard = () => {
       <div className="w-screen pt-60">
         <div className="w-full px-20 mt-8 grid grid-cols-5 gap-4">
           {myProfile?.boards?.map((elem) => (
-            <div className="h-56 w-60 mb-2">
+            <Link to={`/board/${elem._id}`} className="h-56 w-60 mb-2">
               {elem?.isSecret ? (
                 <div className="absolute z-50 h-8 w-8 p-2 bg-white mt-2 ml-2 rounded-full">
                   <img
@@ -121,7 +121,7 @@ const Dashboard = () => {
               <span className="ml-2 text-sm text-zinc-500">
                 {elem?.pins.length} Pins
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
