@@ -70,7 +70,14 @@ const Board = () => {
       </span>
 
       <div className="w-full px-20 mt-4 h-10 flex items-center">
-        <div className="collaborators flex items-center justify-between h-full relative w-20">
+        <div
+          className="collaborators flex items-center justify-between h-full relative"
+          style={{
+            width: `${
+              (selectedBoard?.data?.collaborators.length + 2) * 2.2
+            }rem`,
+          }}
+        >
           {/* User div */}
           <div className="h-full w-10 border-2 border-white bg-red-200 rounded-full z-[1]"></div>
 
@@ -80,17 +87,19 @@ const Board = () => {
               key={index}
               className={`h-full w-10 border-2 border-white bg-blue-200 rounded-full z-[${
                 index + 2
-              }] absolute ml-[${(index + 1) * 1.8}rem]`}
+              }] absolute`}
+              style={{ marginLeft: `${(index + 1) * 1.8}rem` }}
             ></div>
           ))}
 
           {/* Last div with image */}
           <div
-            className={`h-full w-10 border-2 border-white bg-zinc-200 rounded-full hover:bg-zinc-300 z-[${
-              selectedBoard?.data?.collaborators.length + 2
-            }] absolute ml-[${
-              (selectedBoard?.data?.collaborators.length + 1) * 1.8
-            }rem] p-2`}
+            className="h-full w-10 border-2 border-white bg-zinc-200 rounded-full hover:bg-zinc-300 z-[999] absolute p-2.5"
+            style={{
+              marginLeft: `${
+                (selectedBoard?.data?.collaborators.length + 1) * 1.8
+              }rem`,
+            }}
           >
             <img
               src="/User-Add-Plus--Streamline-Core.svg"
@@ -99,6 +108,70 @@ const Board = () => {
             />
           </div>
         </div>
+      </div>
+
+      <div className="w-full h-[4.8rem] px-24 mt-6">
+        <div className="w-[4.8rem] gap-1 flex flex-col items-center justify-center">
+          <div className="bg-zinc-200 h-[4.8rem] w-[4.8rem] rounded-3xl p-7">
+            <img
+              src="/Pathfinder-Minus-Front-1--Streamline-Core.svg"
+              className="w-full h-full"
+              alt=""
+            />
+          </div>
+          <span className="text-sm text-zinc-600">Organise</span>
+        </div>
+      </div>
+
+      <div className="w-screen h-10 mt-16 flex flex-row-reverse px-20">
+        <div className="h-full w-10 rounded-full hover:bg-zinc-200 p-2">
+          <img src="/equalizer-2-line.svg" className="w-full h-full" alt="" />
+        </div>
+      </div>
+
+      <div className="w-screen px-20">
+        <div className="columns-5 gap-x-5 break-inside-avoid">
+          {selectedBoard?.data?.pins?.map((elem) => (
+            <Link to={`/pin/${elem._id}`} className="card mb-2" key={elem._id}>
+              {elem.file.filetype === "image" ? (
+                <img
+                  src={`/uploads/${elem.file.filename}`}
+                  className="shadow-xl object-cover object-top w-full rounded-xl mb-1 break-after-avoid"
+                  alt={`Image uploaded by ${elem.createdBy.fullname.firstname}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div className="relative">
+                  <h5 className="absolute text-xs px-1.5 py-0.5 mt-1 ml-1 opacity-70 bg-zinc-200 text-zinc-800 rounded-full video-duration">
+                    0:00
+                  </h5>
+                  <video
+                    src={`/uploads/${elem.file.filename}`}
+                    className="shadow-xl rounded-xl mb-1 break-after-avoid mt-1 video"
+                    controls
+                  />
+                </div>
+              )}
+              <div className="data flex items-center gap-2 mt-2 mb-4 ml-1">
+                <div className="h-7 w-7 rounded-full overflow-hidden">
+                  <img
+                    className="h-full w-full object-cover rounded-full"
+                    src={`/uploads/${elem.createdBy.profileImage}`}
+                    alt={`${elem.createdBy.fullname.firstname}'s profile`}
+                  />
+                </div>
+                <h3 className="whitespace-nowrap overflow-ellipsis overflow-hidden">
+                  {elem.createdBy.fullname.firstname}{" "}
+                  {elem.createdBy.fullname.surname}
+                </h3>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-screen py-6 flex items-center justify-center">
+          <img src="/pinterest-fill-@.svg" className="h-10 w-10" alt="" />
       </div>
     </div>
   );
