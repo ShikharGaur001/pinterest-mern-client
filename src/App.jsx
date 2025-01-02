@@ -12,6 +12,9 @@ import Home from "./pages/Home";
 import Pin from "./pages/Pin";
 import Profile from "./pages/Profile";
 import Board from "./pages/Board";
+import CreatePin from "./pages/CreatePin"
+import CreateBoard from "./pages/CreateBoard"
+import SavedPins from "./pages/SavedPins"
 
 const App = () => {
   const { user } = useSelector((state) => state.auth); // Access user from Redux store
@@ -29,6 +32,9 @@ const App = () => {
           <Route path="/pin/:pinId" element={<Pin />} />
           <Route path="/profile/:userName" element={<Profile />} />
           <Route path="/board/:boardId" element={<Board />} />
+          <Route path="/create/pin" element={<CreatePin />} />
+          <Route path="/create/board" element={<CreateBoard />} />
+          <Route path="/pins/saved" element={<SavedPins />} />
         </Routes>
       </div>
       <ToastContainer />

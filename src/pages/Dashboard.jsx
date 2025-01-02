@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner"; // Import your Spinner component
 import { getCurrentUser, reset } from "../redux/auth/auth.slice";
 
 const Dashboard = () => {
+  const [addOn, setAddOn] = useState(false);
+
+  const toggleAdd = () => {
+    setAddOn((prev) => !prev);
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -89,8 +95,22 @@ const Dashboard = () => {
               Secret
             </button>
           </div>
-          <div className="w-12 h-full p-2 hover:bg-zinc-100 rounded-full">
-            <img className="w-full h-full" src="/add-fill.svg" alt="" />
+          <button
+            onClick={toggleAdd}
+            className={`w-12 h-full active:animate-jump active:animate-ease-out p-2 rounded-full ${
+              addOn ? "bg-zinc-800" : "hover:bg-zinc-100"
+            }`}
+          >
+            <img
+              className={`w-full h-full ${addOn ? "invert" : ""}`}
+              src="/add-fill.svg"
+              alt=""
+            />
+          </button>
+          <div className={`${addOn ? "animate-fade-up animate-duration-500 animate-ease-out" : "hidden"} z-50 absolute mt-48 mr-12 w-44 p-3 shadow-even bg-white h-32 rounded-xl right-0`}>
+            <span className="w-full mb-2 text-zinc-500 text-xs px-2">Create</span>
+            <Link to={`/create/pin`} className="w-full px-2 py-2 hover:bg-zinc-200 rounded-lg flex">Pin</Link>
+            <Link to={`/create/board`} className="w-full px-2 py-2 hover:bg-zinc-200 rounded-lg flex">Board</Link>
           </div>
         </div>
       </div>
@@ -121,14 +141,14 @@ const Dashboard = () => {
                   }`}
                 >
                   {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
-                  <img
-                    src={`/uploads/${
-                      elem?.pins[elem?.pins.length - 1]?.file?.filename
-                    }`}
-                    className="object-cover object-top w-full h-full"
-                    alt=""
-                  />
-                ) : null}
+                    <img
+                      src={`/uploads/${
+                        elem?.pins[elem?.pins.length - 1]?.file?.filename
+                      }`}
+                      className="object-cover object-top w-full h-full"
+                      alt=""
+                    />
+                  ) : null}
                 </div>
                 <div className="flex flex-col w-20 h-40">
                   <div
@@ -139,14 +159,14 @@ const Dashboard = () => {
                     }`}
                   >
                     {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
-                  <img
-                    src={`/uploads/${
-                      elem?.pins[elem?.pins.length - 2]?.file?.filename
-                    }`}
-                    className="object-cover object-top w-full h-full"
-                    alt=""
-                  />
-                ) : null}
+                      <img
+                        src={`/uploads/${
+                          elem?.pins[elem?.pins.length - 2]?.file?.filename
+                        }`}
+                        className="object-cover object-top w-full h-full"
+                        alt=""
+                      />
+                    ) : null}
                   </div>
                   <div
                     className={`h-1/2 w-full  overflow-hidden ${
@@ -156,14 +176,14 @@ const Dashboard = () => {
                     }`}
                   >
                     {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
-                  <img
-                    src={`/uploads/${
-                      elem?.pins[elem?.pins.length - 3]?.file?.filename
-                    }`}
-                    className="object-cover object-top w-full h-full"
-                    alt=""
-                  />
-                ) : null}
+                      <img
+                        src={`/uploads/${
+                          elem?.pins[elem?.pins.length - 3]?.file?.filename
+                        }`}
+                        className="object-cover object-top w-full h-full"
+                        alt=""
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>

@@ -6,6 +6,9 @@ export default {
       colors: {
         'pinterest' : '#e60023'
       },
+      boxShadow: {
+        'even': '0 0 30px rgba(0, 0, 0, 0.1)',
+      },
       keyframes: {
         "scroll-up": {
           "0%": { transform: "translateY(0)" },
@@ -22,5 +25,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated')
+  ],
 };

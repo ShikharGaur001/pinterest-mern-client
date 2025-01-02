@@ -118,7 +118,7 @@ const Profile = () => {
       </div>
 
       <div className="w-screen px-20 mt-8 grid grid-cols-5 gap-4">
-        <div className="h-56 w-60 mb-2">
+        <Link to="/pins/saved" className="h-56 w-60 mb-2">
           <div className="h-40 w-full flex justify-between">
             <div
               className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl w-28 z-50 ${
@@ -217,10 +217,10 @@ const Profile = () => {
           <span className="ml-2 text-sm text-zinc-500">
             {selectedProfile?.pins?.savedPins?.length} Pins
           </span>
-        </div>
+        </Link>
 
         {selectedProfile?.publicBoards?.map((elem) => (
-          <div className="h-56 w-60 mb-2">
+          <Link to={`/board/${elem._id}`} className="h-56 w-60 mb-2">
             <div className="h-40 w-full flex rounded-2xl overflow-hidden">
               <div
                 className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
@@ -282,7 +282,7 @@ const Profile = () => {
             <span className="ml-2 text-sm text-zinc-500">
               {elem?.pins.length} Pins
             </span>
-          </div>
+          </Link>
         ))}
       </div>
     </>
