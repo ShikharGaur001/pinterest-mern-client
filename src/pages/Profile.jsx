@@ -120,28 +120,168 @@ const Profile = () => {
       <div className="w-screen px-20 mt-8 grid grid-cols-5 gap-4">
         <div className="h-56 w-60 mb-2">
           <div className="h-40 w-full flex justify-between">
-            <div className="h-40 border-r-2 border-white rounded-2xl w-28 bg-zinc-200 z-50"></div>
-            <div className="h-40 border-r-2 border-white rounded-2xl absolute ml-[2.7rem] w-28 bg-zinc-200 z-40"></div>
-            <div className="h-40 border-r-2 border-white rounded-2xl absolute ml-[5.4rem] w-28 bg-zinc-200 z-30"></div>
-            <div className="h-40 rounded-2xl w-28 bg-zinc-200 z-10"></div>
+            <div
+              className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl w-28 z-50 ${
+                selectedProfile?.pins?.savedPins[
+                  selectedProfile?.pins?.savedPins?.length - 1
+                ]?.file?.filename
+                  ? ""
+                  : "bg-zinc-200"
+              }`}
+            >
+              {selectedProfile?.pins?.savedPins[
+                selectedProfile?.pins?.savedPins?.length - 1
+              ]?.file?.filename ? (
+                <img
+                  className="object-cover object-top w-full h-full"
+                  src={`/uploads/${
+                    selectedProfile?.pins?.savedPins[
+                      selectedProfile?.pins?.savedPins?.length - 1
+                    ]?.file?.filename
+                  }`}
+                  alt=""
+                />
+              ) : null}
+            </div>
+            <div
+              className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl absolute ml-[2.7rem] w-28 z-40 ${
+                selectedProfile?.pins?.savedPins[
+                  selectedProfile?.pins?.savedPins?.length - 2
+                ]?.file?.filename
+                  ? ""
+                  : "bg-zinc-200"
+              }`}
+            >
+              {selectedProfile?.pins?.savedPins[
+                selectedProfile?.pins?.savedPins?.length - 2
+              ]?.file?.filename ? (
+                <img
+                  className="object-cover object-top w-full h-full"
+                  src={`/uploads/${
+                    selectedProfile?.pins?.savedPins[
+                      selectedProfile?.pins?.savedPins?.length - 2
+                    ]?.file?.filename
+                  }`}
+                  alt=""
+                />
+              ) : null}
+            </div>
+            <div
+              className={`h-40 border-r-2 border-white rounded-2xl absolute ml-[5.4rem] w-28 overflow-hidden z-30 ${
+                selectedProfile?.pins?.savedPins[
+                  selectedProfile?.pins?.savedPins?.length - 3
+                ]?.file?.filename
+                  ? ""
+                  : "bg-zinc-200"
+              }`}
+            >
+              {selectedProfile?.pins?.savedPins[
+                selectedProfile?.pins?.savedPins?.length - 3
+              ]?.file?.filename ? (
+                <img
+                  className="object-cover object-top w-full h-full"
+                  src={`/uploads/${
+                    selectedProfile?.pins?.savedPins[
+                      selectedProfile?.pins?.savedPins?.length - 3
+                    ]?.file?.filename
+                  }`}
+                  alt=""
+                />
+              ) : null}
+            </div>
+            <div
+              className={`h-40 rounded-2xl w-28 overflow-hidden z-10 ${
+                selectedProfile?.pins?.savedPins[
+                  selectedProfile?.pins?.savedPins?.length - 4
+                ]?.file?.filename
+                  ? ""
+                  : "bg-zinc-200"
+              }`}
+            >
+              {selectedProfile?.pins?.savedPins[
+                selectedProfile?.pins?.savedPins?.length - 4
+              ]?.file?.filename ? (
+                <img
+                  className="object-cover object-top w-full h-full"
+                  src={`/uploads/${
+                    selectedProfile?.pins?.savedPins[
+                      selectedProfile?.pins?.savedPins?.length - 4
+                    ]?.file?.filename
+                  }`}
+                  alt=""
+                />
+              ) : null}
+            </div>
           </div>
           <span className="ml-2 mt-2 text-xl flex font-semibold">All Pins</span>
-          <span className="ml-2 text-sm text-zinc-500">1.3k Pins</span>
+          <span className="ml-2 text-sm text-zinc-500">
+            {selectedProfile?.pins?.savedPins?.length} Pins
+          </span>
         </div>
 
         {selectedProfile?.publicBoards?.map((elem) => (
           <div className="h-56 w-60 mb-2">
             <div className="h-40 w-full flex rounded-2xl overflow-hidden">
-              <div className="h-40 w-40 border-r-2 border-white bg-zinc-200"></div>
+              <div
+                className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
+                  elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    ? ""
+                    : "bg-zinc-200"
+                }`}
+              >
+                {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
+                  <img
+                    src={`/uploads/${
+                      elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    }`}
+                    className="object-cover object-top w-full h-full"
+                    alt=""
+                  />
+                ) : null}
+              </div>
               <div className="flex flex-col w-20 h-40">
-                <div className="h-1/2 w-full border-b-2 border-white bg-zinc-200"></div>
-                <div className="h-1/2 w-full bg-zinc-200"></div>
+                <div
+                  className={`h-1/2 w-full border-b-2  overflow-hidden border-white ${
+                    elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      ? ""
+                      : "bg-zinc-200"
+                  }`}
+                >
+                  {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
+                    <img
+                      src={`/uploads/${
+                        elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      }`}
+                      className="object-cover object-top w-full h-full"
+                      alt=""
+                    />
+                  ) : null}
+                </div>
+                <div
+                  className={`h-1/2 w-full  overflow-hidden ${
+                    elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      ? ""
+                      : "bg-zinc-200"
+                  }`}
+                >
+                  {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
+                    <img
+                      src={`/uploads/${
+                        elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      }`}
+                      className="object-cover object-top w-full h-full"
+                      alt=""
+                    />
+                  ) : null}
+                </div>
               </div>
             </div>
             <span className="ml-2 mt-2 text-xl flex font-semibold">
               {elem?.title}
             </span>
-            <span className="ml-2 text-sm text-zinc-500">{elem?.pins.length} Pins</span>
+            <span className="ml-2 text-sm text-zinc-500">
+              {elem?.pins.length} Pins
+            </span>
           </div>
         ))}
       </div>

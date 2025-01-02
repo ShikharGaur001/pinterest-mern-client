@@ -79,7 +79,9 @@ const Board = () => {
           }}
         >
           {/* User div */}
-          <div className="h-full w-10 border-2 border-white bg-red-200 rounded-full z-[1]"></div>
+          <div className="h-full w-10 border-2 border-white bg-red-200 rounded-full overflow-hidden z-[1]">
+            <img src={`/uploads/${selectedBoard?.data?.createdBy?.profileImage}`} alt="" />
+          </div>
 
           {/* Collaborators divs */}
           {selectedBoard?.data?.collaborators.map((collaborator, index) => (

@@ -120,13 +120,15 @@ const Dashboard = () => {
                       : "bg-zinc-200"
                   }`}
                 >
+                  {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
                   <img
                     src={`/uploads/${
                       elem?.pins[elem?.pins.length - 1]?.file?.filename
                     }`}
-                    className="w-full object-cover"
+                    className="object-cover object-top w-full h-full"
                     alt=""
                   />
+                ) : null}
                 </div>
                 <div className="flex flex-col w-20 h-40">
                   <div
@@ -136,13 +138,15 @@ const Dashboard = () => {
                         : "bg-zinc-200"
                     }`}
                   >
-                    <img
-                      src={`/uploads/${
-                        elem?.pins[elem?.pins.length - 2]?.file?.filename
-                      }`}
-                      className="w-full object-cover"
-                      alt=""
-                    />
+                    {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
+                  <img
+                    src={`/uploads/${
+                      elem?.pins[elem?.pins.length - 2]?.file?.filename
+                    }`}
+                    className="object-cover object-top w-full h-full"
+                    alt=""
+                  />
+                ) : null}
                   </div>
                   <div
                     className={`h-1/2 w-full  overflow-hidden ${
@@ -151,13 +155,15 @@ const Dashboard = () => {
                         : "bg-zinc-200"
                     }`}
                   >
-                    <img
-                      src={`/uploads/${
-                        elem?.pins[elem?.pins.length - 3]?.file?.filename
-                      }`}
-                      className="w-full object-cover"
-                      alt=""
-                    />
+                    {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
+                  <img
+                    src={`/uploads/${
+                      elem?.pins[elem?.pins.length - 3]?.file?.filename
+                    }`}
+                    className="object-cover object-top w-full h-full"
+                    alt=""
+                  />
+                ) : null}
                   </div>
                 </div>
               </div>
