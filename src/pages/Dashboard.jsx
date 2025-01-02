@@ -98,7 +98,11 @@ const Dashboard = () => {
       <div className="w-screen pt-60">
         <div className="w-full px-20 mt-8 grid grid-cols-5 gap-4">
           {myProfile?.boards?.map((elem) => (
-            <Link to={`/board/${elem._id}`} className="h-56 w-60 mb-2">
+            <Link
+              to={`/board/${elem._id}`}
+              className="h-56 w-60 mb-2"
+              key={elem._id}
+            >
               {elem?.isSecret ? (
                 <div className="absolute z-50 h-8 w-8 p-2 bg-white mt-2 ml-2 rounded-full">
                   <img
@@ -109,10 +113,52 @@ const Dashboard = () => {
                 </div>
               ) : null}
               <div className="h-40 w-full flex rounded-2xl overflow-hidden">
-                <div className="h-40 w-40 border-r-2 border-white bg-zinc-200"></div>
+                <div
+                  className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
+                    elem?.pins[elem?.pins.length - 1]?.file?.filename
+                      ? ""
+                      : "bg-zinc-200"
+                  }`}
+                >
+                  <img
+                    src={`/uploads/${
+                      elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    }`}
+                    className="w-full object-cover"
+                    alt=""
+                  />
+                </div>
                 <div className="flex flex-col w-20 h-40">
-                  <div className="h-1/2 w-full border-b-2 border-white bg-zinc-200"></div>
-                  <div className="h-1/2 w-full bg-zinc-200"></div>
+                  <div
+                    className={`h-1/2 w-full border-b-2  overflow-hidden border-white ${
+                      elem?.pins[elem?.pins.length - 2]?.file?.filename
+                        ? ""
+                        : "bg-zinc-200"
+                    }`}
+                  >
+                    <img
+                      src={`/uploads/${
+                        elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      }`}
+                      className="w-full object-cover"
+                      alt=""
+                    />
+                  </div>
+                  <div
+                    className={`h-1/2 w-full  overflow-hidden ${
+                      elem?.pins[elem?.pins.length - 3]?.file?.filename
+                        ? ""
+                        : "bg-zinc-200"
+                    }`}
+                  >
+                    <img
+                      src={`/uploads/${
+                        elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      }`}
+                      className="w-full object-cover"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </div>
               <span className="ml-2 mt-2 text-xl flex font-semibold">
