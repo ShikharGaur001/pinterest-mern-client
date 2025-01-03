@@ -6,7 +6,7 @@ import { logout, reset } from "../redux/auth/auth.slice";
 const Navbar = () => {
   const location = useLocation();
   const currentRoute = location.pathname;
-  const { myProfile } = useSelector((state) => state.auth); // Access user from Redux store
+  const { myProfile, selectedProfile } = useSelector((state) => state.auth); // Access user from Redux store
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch(); // For dispatching actions
   const navigate = useNavigate()
@@ -85,12 +85,12 @@ const Navbar = () => {
           </Link>
           <Link
             className={`h-8 w-8 ${
-              currentRoute === "/dashboard" || currentRoute === `/profile/${myProfile?.username}` ? "border-zinc-800 border-2" : ""
+              currentRoute === "/dashboard" || currentRoute === `/profile/${myProfile?.username || selectedProfile?.username}` ? "border-zinc-800 border-2" : ""
             } rounded-full`}
             to="/dashboard"
           >
             <img
-              src={`/uploads/${myProfile?.profileImage}`}
+              src={`/uploads/${myProfile?.profileImage || selectedProfile?.profileImage}`}
               className="p-0.5 h-full w-full object-cover rounded-full bg-zinc-200"
               alt="User Profile"
             />
