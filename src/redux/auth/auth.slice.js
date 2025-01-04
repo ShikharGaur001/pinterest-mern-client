@@ -80,6 +80,24 @@ export const getCurrentUser = createAsyncThunk(
   }
 );
 
+export const followUser = createAsyncThunk(
+  "auth/followUser",
+  async (userId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await authService.followUser(userId, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -150,6 +168,19 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      .addCase(followUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(followUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.selectedProfile = action.payload; // Directly assign the user object
+      })
+      .addCase(followUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 

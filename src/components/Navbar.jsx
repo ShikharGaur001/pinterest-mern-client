@@ -23,7 +23,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="fixed bg-white z-50 w-screen">
+      <div className="fixed bg-white z-[9999999] w-screen">
         <nav className="w-full flex gap-3 px-5 py-3 items-center">
           <img src="/pinterest-logo.svg" className="h-8" alt="Logo" />
           <Link

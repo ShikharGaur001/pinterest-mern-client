@@ -39,6 +39,16 @@ const getCurrentUser = async (token) => {
   return response.data.user; // Return the user object directly
 };
 
-const authService = { register, logout, login, getProfile, getCurrentUser };
+const followUser = async (userId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const response = await axios.put(API_URL + "follow/" + userId, {}, config) // Ensure the request body is empty
+  return response.data.user
+}
+
+const authService = { register, logout, login, getProfile, getCurrentUser, followUser };
 
 export default authService;
