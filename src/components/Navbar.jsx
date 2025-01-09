@@ -52,7 +52,7 @@ const Navbar = () => {
                 ? "bg-zinc-800 text-white hover:bg-zinc-800"
                 : "hover:bg-zinc-200"
             }`}
-            to="/create"
+            to="/create/pin"
           >
             Create
           </Link>

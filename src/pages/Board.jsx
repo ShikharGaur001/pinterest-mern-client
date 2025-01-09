@@ -10,7 +10,7 @@ const Board = () => {
   const { boardId } = useParams();
 
   const { user } = useSelector((state) => state.auth);
-  const { selectedBoard, isLoading, isError, message } = useSelector(
+  const { selectedBoard, isLoadingInBoard, isErrorInBoard, messageBoard } = useSelector(
     (state) => state.boards
   );
 
@@ -26,14 +26,14 @@ const Board = () => {
     };
   }, [user, navigate, dispatch, boardId]);
 
-  if (isLoading) {
+  if (isLoadingInBoard) {
     return <Spinner />;
   }
 
-  if (isError) {
+  if (isErrorInBoard) {
     return (
       <div className="w-full flex justify-center text-red-600">
-        <p>Error loading board: {message}</p>
+        <p>Error loading board: {messageBoard}</p>
       </div>
     );
   }
@@ -65,7 +65,21 @@ const Board = () => {
         </div>
       </div>
 
-      <span className="text-zinc-500 px-20 mt-4">
+      <span className="text-zinc-500 px-20 flex items-center gap-1 mt-4">
+        {selectedBoard?.data?.isSecret ? (
+          <div className="flex gap-2 items-center">
+            <div className="h-6 w-6 p-1.5 bg-zinc-100 rounded-full">
+              <img
+                src="/Padlock-Square-1--Streamline-Core.svg"
+                className="h-full w-full"
+                alt=""
+              />
+            </div>
+            <span className="font-light">Secret • </span>
+          </div>
+        ) : (
+          ""
+        )}{" "}
         {selectedBoard?.data?.pins?.length} Pins
       </span>
 
@@ -80,7 +94,10 @@ const Board = () => {
         >
           {/* User div */}
           <div className="h-full w-10 border-2 border-white bg-red-200 rounded-full overflow-hidden z-[1]">
-            <img src={`/uploads/${selectedBoard?.data?.createdBy?.profileImage}`} alt="" />
+            <img
+              src={`/uploads/${selectedBoard?.data?.createdBy?.profileImage}`}
+              alt=""
+            />
           </div>
 
           {/* Collaborators divs */}
@@ -173,7 +190,7 @@ const Board = () => {
       </div>
 
       <div className="w-screen py-6 flex items-center justify-center">
-          <img src="/pinterest-fill-@.svg" className="h-10 w-10" alt="" />
+        <img src="/pinterest-fill-@.svg" className="h-10 w-10" alt="" />
       </div>
     </div>
   );

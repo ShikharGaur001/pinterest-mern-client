@@ -4,10 +4,10 @@ import boardService from "./board.service";
 const initialState = {
   boards: [],
   selectedBoard: null,
-  isError: false,
-  isSuccess: false,
-  isLoading: false,
-  message: "",
+  isErrorInBoard: false,
+  isSuccessInBoard: false,
+  isLoadingInBoard: false,
+  messageBoard: "",
 };
 
 // Create a new board
@@ -56,30 +56,30 @@ export const boardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createBoard.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingInBoard = true;
       })
       .addCase(createBoard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
+        state.isLoadingInBoard = false;
+        state.isSuccessInBoard = true;
         state.boards = [...state.boards, action.payload];
       })
       .addCase(createBoard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.isLoadingInBoard = false;
+        state.isErrorInBoard = true;
+        state.messageBoard = action.payload;
       })
       .addCase(getBoard.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingInBoard = true;
       })
       .addCase(getBoard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
+        state.isLoadingInBoard = false;
+        state.isSuccessInBoard = true;
         state.selectedBoard = action.payload; // Directly assign the board object
       })
       .addCase(getBoard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.isLoadingInBoard = false;
+        state.isErrorInBoard = true;
+        state.messageBoard = action.payload;
       });
   },
 });

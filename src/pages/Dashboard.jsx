@@ -6,9 +6,19 @@ import { getCurrentUser, reset } from "../redux/auth/auth.slice";
 
 const Dashboard = () => {
   const [addOn, setAddOn] = useState(false);
+  const [secretFilter, setSecretFilter] = useState(false);
+  const [groupFilter, setGroupFilter] = useState(false);
 
   const toggleAdd = () => {
     setAddOn((prev) => !prev);
+  };
+
+  const toggleSecretFilter = () => {
+    setSecretFilter((prev) => !prev);
+  };
+
+  const toggleGroupFilter = () => {
+    setGroupFilter((prev) => !prev);
   };
 
   const navigate = useNavigate();
@@ -50,6 +60,33 @@ const Dashboard = () => {
       ? `${myProfile.fullname.firstname} ${myProfile.fullname.surname}`
       : "Guest";
 
+  const calculateTimeDifference = (date) => {
+    const now = new Date();
+    const past = new Date(date);
+    const diffInSeconds = Math.floor((now - past) / 1000);
+
+    const units = [
+      { label: "year", seconds: 31536000 },
+      { label: "month", seconds: 2592000 },
+      { label: "week", seconds: 604800 },
+      { label: "day", seconds: 86400 },
+      { label: "hour", seconds: 3600 },
+      { label: "minute", seconds: 60 },
+    ];
+
+    for (const unit of units) {
+      const interval = Math.floor(diffInSeconds / unit.seconds);
+      if (interval >= 1) {
+        return `${interval} ${unit.label}${interval > 1 ? "s" : ""}`;
+      }
+    }
+    return "just now";
+  };
+
+  const formatPinsCount = (count) => {
+    return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count;
+  };
+
   return (
     <>
       <div className="fixed bg-white flex flex-col w-screen pt-10 pb-6 px-24">
@@ -88,10 +125,10 @@ const Dashboard = () => {
 
         <div className="w-full mt-4 h-12 flex px-4 items-center gap-6 justify-between">
           <div className="flex items-center gap-4 h-full">
-            <button className="px-4 py-2 border-2 border-zinc-200 rounded-full">
+            <button onClick={toggleGroupFilter} className={`${secretFilter ? "pointer-events-none" : ""} px-4 py-2 rounded-full border-2 active:animate-jump active:animate-ease-out ${groupFilter ? "border-zinc-800 bg-zinc-800 text-white" : "border-zinc-200 hover:bg-zinc-100"}`}>
               Group
             </button>
-            <button className="px-4 py-2 border-2 border-zinc-200 rounded-full">
+            <button onClick={toggleSecretFilter} className={`${groupFilter ? "pointer-events-none" : ""} px-4 py-2 rounded-full border-2 active:animate-jump active:animate-ease-out ${secretFilter ? "border-zinc-800 bg-zinc-800 text-white" : "border-zinc-200 hover:bg-zinc-100"}`}>
               Secret
             </button>
           </div>
@@ -120,7 +157,7 @@ const Dashboard = () => {
           {myProfile?.boards?.map((elem) => (
             <Link
               to={`/board/${elem._id}`}
-              className="h-56 w-60 mb-2"
+              className={`h-56 w-60 mb-2 ${groupFilter && (!elem?.collaborators || elem?.collaborators?.length < 1) ? "hidden" : ""} ${secretFilter && !elem?.isSecret ? "hidden" : ""}`}
               key={elem._id}
             >
               {elem?.isSecret ? (
@@ -191,7 +228,7 @@ const Dashboard = () => {
                 {elem?.title}
               </span>
               <span className="ml-2 text-sm text-zinc-500">
-                {elem?.pins.length} Pins
+                {formatPinsCount(elem?.pins.length)} Pins • {calculateTimeDifference(elem?.updatedAt)}
               </span>
             </Link>
           ))}
