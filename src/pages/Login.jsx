@@ -20,7 +20,7 @@ const Login = () => {
   )
 
   useEffect(() => {
-    if (isError) toast.error(message)
+    if (isError && message) toast.error(message);
     if (isSuccess || user) navigate("/dashboard")
     dispatch(reset())
   }, [user, isSuccess, isError, message, navigate, dispatch])

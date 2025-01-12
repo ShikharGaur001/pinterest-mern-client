@@ -14,9 +14,10 @@ const Signup = () => {
     email: "",
     password: "",
     username: "",
+    confirmPassword: "",
   });
 
-  const { firstname, surname, email, password, username } = formData;
+  const { firstname, surname, email, password, username, confirmPassword } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,27 +33,42 @@ const Signup = () => {
   }, [user, isSuccess, isError, message, navigate, dispatch]);
 
   const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    if (name === "firstname" || name === "surname") {
+      setFormData((prevState) => ({
+        ...prevState,
+        fullname: {
+          ...prevState.fullname,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const onSubmit = (e) => {
-    if (!firstname || !email || !password || !username) {
+    e.preventDefault();
+    if (!formData.fullname.firstname || !formData.email || !formData.password || !formData.confirmPassword || !formData.username) {
       toast.error("Please fill all fields");
       return;
     }
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Both passwords should match each other");
+      return;
+    }
 
-    e.preventDefault();
     const userData = {
       fullname: {
-        firstname,
-        surname,
+        firstname: formData.fullname.firstname,
+        surname: formData.fullname.surname,
       },
-      email,
-      password,
-      username,
+      email: formData.email,
+      password: formData.password,
+      username: formData.username,
     };
     dispatch(register(userData));
   };
@@ -151,7 +167,7 @@ const Signup = () => {
           />
         </div>
       </div>
-      <div className="w-[28vw] h-[72vh] bg-zinc-100 rounded-3xl px-14 py-6 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 left-1/2">
+      <div className="w-[28vw] h-[80vh] bg-zinc-100 rounded-3xl px-14 py-6 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 z-10 left-1/2">
         <img className="h-9 m-auto mb-1" src="/pinterest-logo.svg" alt="" />
         <h1 className="text-center text-2xl font-medium tracking-tighter">
           Welcome to Pinterest
@@ -231,6 +247,20 @@ const Signup = () => {
               value={password}
               onChange={onChange}
               id="password"
+            />
+          </div>
+          <div className="flex flex-col mt-1">
+            <label htmlFor="confirmPassword" className="text-xs ml-1">
+              Confirm Password
+            </label>
+            <input
+              className="block px-3 py-[.4rem] rounded-xl border-2"
+              type="password"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={onChange}
+              id="confirmPassword"
             />
           </div>
           <input

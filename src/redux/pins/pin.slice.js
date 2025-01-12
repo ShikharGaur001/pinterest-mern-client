@@ -61,6 +61,24 @@ export const getPin = createAsyncThunk(
   }
 );
 
+export const savePin = createAsyncThunk(
+  "pin/save",
+  async ({ pinId, boardid }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await pinService.savePin(pinId, boardid, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+)
+
 export const pinSlice = createSlice({
   name: "pin",
   initialState,
@@ -88,7 +106,7 @@ export const pinSlice = createSlice({
       .addCase(getPins.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.pins = action.payload;
+        state.pins = action.payload.pins; // Ensure the correct data structure
       })
       .addCase(getPins.rejected, (state, action) => {
         state.isLoading = false;
@@ -107,7 +125,19 @@ export const pinSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      });
+      })
+      .addCase(savePin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(savePin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(savePin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
   },
 });
 

@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner"; // Import your Spinner component
 import { getCurrentUser, reset } from "../redux/auth/auth.slice";
+import isTokenExpired from "../utils/tokenExpiry.check";
 
 const Dashboard = () => {
   const [addOn, setAddOn] = useState(false);
@@ -23,23 +24,28 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { user, myProfile, isLoading, isError, message } = useSelector(
     (state) => state.auth
   );
 
-  // Check if user exists on initial load and redirect if not
+  // Check if user exists or token is expired on initial load and redirect if necessary
   useEffect(() => {
-    if (!user) {
+    if (!user || isTokenExpired(user.token)) {
       navigate("/login");
-    } else {
+    } else if (!myProfile) {
       dispatch(getCurrentUser());
     }
 
     return () => {
       dispatch(reset());
     };
-  }, [user, navigate, dispatch]);
+  }, [user, myProfile, navigate, dispatch]); // Removed addOn from dependencies
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [location, dispatch]); // Removed myProfile from dependencies
 
   // Show spinner while checking user state
   if (isLoading) {
@@ -55,10 +61,9 @@ const Dashboard = () => {
   }
 
   // Extract full name or provide a fallback
-  const fullname =
-    myProfile?.fullname?.firstname && myProfile?.fullname?.surname
-      ? `${myProfile.fullname.firstname} ${myProfile.fullname.surname}`
-      : "Guest";
+  const fullname = myProfile?.fullname?.firstname
+    ? myProfile.fullname.firstname + (myProfile?.fullname?.surname ? ` ${myProfile.fullname.surname}` : "")
+    : "Guest";
 
   const calculateTimeDifference = (date) => {
     const now = new Date();
@@ -172,15 +177,15 @@ const Dashboard = () => {
               <div className="h-40 w-full flex rounded-2xl overflow-hidden">
                 <div
                   className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
-                    elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       ? ""
                       : "bg-zinc-200"
                   }`}
                 >
-                  {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
+                  {elem?.pins[elem?.pins?.length - 1]?.file?.fileurl ? (
                     <img
-                      src={`/uploads/${
-                        elem?.pins[elem?.pins.length - 1]?.file?.filename
+                      src={`${
+                        elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       }`}
                       className="object-cover object-top w-full h-full"
                       alt=""
@@ -190,15 +195,15 @@ const Dashboard = () => {
                 <div className="flex flex-col w-20 h-40">
                   <div
                     className={`h-1/2 w-full border-b-2  overflow-hidden border-white ${
-                      elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 2]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 2]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""
@@ -207,15 +212,15 @@ const Dashboard = () => {
                   </div>
                   <div
                     className={`h-1/2 w-full  overflow-hidden ${
-                      elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 3]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 3]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""

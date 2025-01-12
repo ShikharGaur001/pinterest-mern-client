@@ -1,36 +1,43 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { getPins, reset } from "../redux/pins/pin.slice";
+import { getPins, reset as resetPin } from "../redux/pins/pin.slice";
 import Spinner from "../components/Spinner";
+import { getCurrentUser, reset as resetAuth } from "../redux/auth/auth.slice";
+import isTokenExpired from "../utils/tokenExpiry.check";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, myProfile } = useSelector((state) => state.auth);
   const { pins, isLoading, isError, message } = useSelector(
     (state) => state.pins
   );
 
   // Redirect unauthenticated users to login
   useEffect(() => {
-    if (!user) {
+    if (!user || (user && user.token && isTokenExpired(user.token))) {
       navigate("/login");
+    } else if (!myProfile) {
+      dispatch(getCurrentUser());
     }
-  }, [user, navigate]);
+  }, [user, myProfile, navigate, dispatch]);
 
   // Fetch pins and handle errors
   useEffect(() => {
-    if (isError) {
+    if (isError && message) {
       alert(`Error: ${message}`); // Display error as an alert (can use toast instead)
     }
-    dispatch(getPins());
+    if (user && user.token) {
+      dispatch(getPins());
+    }
 
     return () => {
-      dispatch(reset());
+      dispatch(resetPin());
+      dispatch(resetAuth());
     };
-  }, [dispatch, isError, message]);
+  }, [dispatch, isError, message, user]);
 
   return isLoading ? (
     <Spinner />
@@ -41,11 +48,11 @@ const Home = () => {
       </h1>
       <div className="w-screen px-24 py-3">
         <div className="columns-5 gap-x-5 break-inside-avoid">
-          {pins?.pins?.map((elem) => (
+          {pins?.map((elem) => (
             <Link to={`/pin/${elem._id}`} className="card mb-2" key={elem._id}>
-              {elem.file.filetype === "image" ? (
+              {elem?.file?.filetype === "image/jpeg" ? (
                 <img
-                  src={`/uploads/${elem.file.filename}`}
+                  src={`${elem?.file?.fileurl}`}
                   className="shadow-xl object-cover object-top w-full rounded-xl mb-1 break-after-avoid"
                   alt={`Image uploaded by ${elem.createdBy.fullname.firstname}`}
                   loading="lazy"
@@ -56,7 +63,7 @@ const Home = () => {
                     0:00
                   </h5>
                   <video
-                    src={`/uploads/${elem.file.filename}`}
+                    src={`/uploads/${elem?.file?.fileurl}`}
                     className="shadow-xl rounded-xl mb-1 break-after-avoid mt-1 video"
                     controls
                   />

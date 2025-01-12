@@ -58,8 +58,8 @@ const Profile = () => {
   if (selectedProfile?.username === myProfile?.username) {
     return (
       <>
-        <Link
-          to="/dashboard"
+        <button
+          onClick={() => navigate(-1)}
           className="fixed h-12 w-12 left-0 ml-6 mt-6 p-3 hover:bg-zinc-100 rounded-full"
         >
           <img
@@ -67,7 +67,7 @@ const Profile = () => {
             className="h-full w-full -rotate-90"
             alt=""
           />
-        </Link>
+        </button>
 
         <div className="w-screen py-8 px-20">
           <div className="w-full h-32 flex items-center justify-center">
@@ -138,20 +138,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl w-28 z-50 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 1
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 1
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 1
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -161,20 +161,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl absolute ml-[2.7rem] w-28 z-40 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 2
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 2
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 2
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -184,20 +184,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white rounded-2xl absolute ml-[5.4rem] w-28 overflow-hidden z-30 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 3
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 3
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 3
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -207,20 +207,20 @@ const Profile = () => {
                 className={`h-40 rounded-2xl w-28 overflow-hidden z-10 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 4
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 4
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 4
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -240,15 +240,15 @@ const Profile = () => {
               <div className="h-40 w-full flex rounded-2xl overflow-hidden">
                 <div
                   className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
-                    elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       ? ""
                       : "bg-zinc-200"
                   }`}
                 >
-                  {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
+                  {elem?.pins[elem?.pins?.length - 1]?.file?.fileurl ? (
                     <img
-                      src={`/uploads/${
-                        elem?.pins[elem?.pins.length - 1]?.file?.filename
+                      src={`${
+                        elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       }`}
                       className="object-cover object-top w-full h-full"
                       alt=""
@@ -258,15 +258,15 @@ const Profile = () => {
                 <div className="flex flex-col w-20 h-40">
                   <div
                     className={`h-1/2 w-full border-b-2  overflow-hidden border-white ${
-                      elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 2]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 2]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""
@@ -275,15 +275,15 @@ const Profile = () => {
                   </div>
                   <div
                     className={`h-1/2 w-full  overflow-hidden ${
-                      elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 3]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 3]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""
@@ -406,20 +406,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl w-28 z-50 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 1
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 1
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 1
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -429,20 +429,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white overflow-hidden rounded-2xl absolute ml-[2.7rem] w-28 z-40 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 2
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 2
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 2
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -452,20 +452,20 @@ const Profile = () => {
                 className={`h-40 border-r-2 border-white rounded-2xl absolute ml-[5.4rem] w-28 overflow-hidden z-30 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 3
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 3
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 3
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -475,20 +475,20 @@ const Profile = () => {
                 className={`h-40 rounded-2xl w-28 overflow-hidden z-10 ${
                   selectedProfile?.pins?.savedPins[
                     selectedProfile?.pins?.savedPins?.length - 4
-                  ]?.file?.filename
+                  ]?.file?.fileurl
                     ? ""
                     : "bg-zinc-200"
                 }`}
               >
                 {selectedProfile?.pins?.savedPins[
                   selectedProfile?.pins?.savedPins?.length - 4
-                ]?.file?.filename ? (
+                ]?.file?.fileurl ? (
                   <img
                     className="object-cover object-top w-full h-full"
-                    src={`/uploads/${
+                    src={`${
                       selectedProfile?.pins?.savedPins[
                         selectedProfile?.pins?.savedPins?.length - 4
-                      ]?.file?.filename
+                      ]?.file?.fileurl
                     }`}
                     alt=""
                   />
@@ -508,15 +508,15 @@ const Profile = () => {
               <div className="h-40 w-full flex rounded-2xl overflow-hidden">
                 <div
                   className={`h-40 w-40 border-r-2 overflow-hidden border-white ${
-                    elem?.pins[elem?.pins.length - 1]?.file?.filename
+                    elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       ? ""
                       : "bg-zinc-200"
                   }`}
                 >
-                  {elem?.pins[elem?.pins?.length - 1]?.file?.filename ? (
+                  {elem?.pins[elem?.pins?.length - 1]?.file?.fileurl ? (
                     <img
-                      src={`/uploads/${
-                        elem?.pins[elem?.pins.length - 1]?.file?.filename
+                      src={`${
+                        elem?.pins[elem?.pins.length - 1]?.file?.fileurl
                       }`}
                       className="object-cover object-top w-full h-full"
                       alt=""
@@ -526,15 +526,15 @@ const Profile = () => {
                 <div className="flex flex-col w-20 h-40">
                   <div
                     className={`h-1/2 w-full border-b-2  overflow-hidden border-white ${
-                      elem?.pins[elem?.pins.length - 2]?.file?.filename
+                      elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 2]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 2]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 2]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 2]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""
@@ -543,15 +543,15 @@ const Profile = () => {
                   </div>
                   <div
                     className={`h-1/2 w-full  overflow-hidden ${
-                      elem?.pins[elem?.pins.length - 3]?.file?.filename
+                      elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         ? ""
                         : "bg-zinc-200"
                     }`}
                   >
-                    {elem?.pins[elem?.pins?.length - 3]?.file?.filename ? (
+                    {elem?.pins[elem?.pins?.length - 3]?.file?.fileurl ? (
                       <img
-                        src={`/uploads/${
-                          elem?.pins[elem?.pins.length - 3]?.file?.filename
+                        src={`${
+                          elem?.pins[elem?.pins.length - 3]?.file?.fileurl
                         }`}
                         className="object-cover object-top w-full h-full"
                         alt=""

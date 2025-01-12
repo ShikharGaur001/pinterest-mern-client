@@ -32,6 +32,16 @@ const getPin = async (pinId, token) => {
   return response.data; // Return the entire response data
 };
 
-const pinService = { createPin, getPins, getPin };
+const savePin = async (pinId, boardid, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(API_URL + "save/" + pinId, { boardid }, config);
+  return response.data;
+};
+
+const pinService = { createPin, getPins, getPin, savePin };
 
 export default pinService;

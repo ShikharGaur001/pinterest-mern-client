@@ -1,23 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getBoard, reset } from "../redux/boards/board.slice";
 import Spinner from "../components/Spinner";
+import { getCurrentUser } from "../redux/auth/auth.slice";
 
 const Board = () => {
+  const [more, setMore] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { boardId } = useParams();
 
-  const { user } = useSelector((state) => state.auth);
-  const { selectedBoard, isLoadingInBoard, isErrorInBoard, messageBoard } = useSelector(
-    (state) => state.boards
-  );
+  const { user, myProfile } = useSelector((state) => state.auth);
+  const { selectedBoard, isLoadingInBoard, isErrorInBoard, messageBoard } =
+    useSelector((state) => state.boards);
+
+  const toggleMore = () => {
+    setMore((prev) => !prev);
+  };
 
   useEffect(() => {
     if (!user) {
       navigate("/login");
     } else {
+      dispatch(getCurrentUser())
       dispatch(getBoard(boardId));
     }
 
@@ -47,6 +54,17 @@ const Board = () => {
   }
 
   return (
+    <>
+    <button
+        onClick={() => navigate(-1)}
+        className="absolute h-12 w-12 left-0 ml-6 mt-6 p-3 hover:bg-zinc-100 rounded-full"
+      >
+        <img
+          src="/Arrow-Up-1--Streamline-Core.svg"
+          className="h-full w-full -rotate-90"
+          alt=""
+        />
+      </button>
     <div className="w-screen pt-16 flex flex-col justify-center">
       <div className="w-full h-12 flex px-20 justify-between items-center">
         <span className="text-4xl font-bold">{selectedBoard?.data?.title}</span>
@@ -59,8 +77,34 @@ const Board = () => {
               alt=""
             />
           </div>
-          <div className="flex items-center justify-center h-full w-12 hover:bg-zinc-200 rounded-full p-2">
-            <img src="/ellypsis.svg" className="h-full w-full" alt="" />
+          <button
+            onClick={toggleMore}
+            className={`w-12 h-full active:animate-jump active:animate-ease-out p-2 rounded-full ${
+              more ? "bg-zinc-800" : "hover:bg-zinc-100"
+            }`}
+          >
+            <img
+              src="/ellypsis.svg"
+              className={`w-full h-full ${more ? "invert" : ""}`}
+              alt=""
+            />
+          </button>
+          <div
+            className={`${
+              more
+                ? "animate-fade-up animate-duration-500 animate-ease-out"
+                : "hidden"
+            } z-50 absolute mt-48 mr-12 w-44 p-3 shadow-even bg-white h-24 rounded-xl right-0`}
+          >
+            <span className="w-full mb-2 text-zinc-500 text-xs px-2">
+              Options
+            </span>
+            <Link
+              to={`/edit/${selectedBoard?.data?._id}`}
+              className="w-full px-2 py-2 hover:bg-zinc-200 rounded-lg flex"
+            >
+              Edit
+            </Link>
           </div>
         </div>
       </div>
@@ -152,9 +196,9 @@ const Board = () => {
         <div className="columns-5 gap-x-5 break-inside-avoid">
           {selectedBoard?.data?.pins?.map((elem) => (
             <Link to={`/pin/${elem._id}`} className="card mb-2" key={elem._id}>
-              {elem.file.filetype === "image" ? (
+              {elem.file.filetype === "image/jpeg" ? (
                 <img
-                  src={`/uploads/${elem.file.filename}`}
+                  src={`${elem.file.fileurl}`}
                   className="shadow-xl object-cover object-top w-full rounded-xl mb-1 break-after-avoid"
                   alt={`Image uploaded by ${elem.createdBy.fullname.firstname}`}
                   loading="lazy"
@@ -165,7 +209,7 @@ const Board = () => {
                     0:00
                   </h5>
                   <video
-                    src={`/uploads/${elem.file.filename}`}
+                    src={`${elem.file.fileurl}`}
                     className="shadow-xl rounded-xl mb-1 break-after-avoid mt-1 video"
                     controls
                   />
@@ -193,6 +237,7 @@ const Board = () => {
         <img src="/pinterest-fill-@.svg" className="h-10 w-10" alt="" />
       </div>
     </div>
+    </>
   );
 };
 
